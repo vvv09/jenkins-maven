@@ -1,9 +1,12 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3-alpine'
-            args '-v /root/.m2:/root/.m2'
-        }
+    agent { 
+        label 'master'
+    }
+    options {
+        // хранить логи последних 10 сборок и артефакты последних 10 сборок
+        buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
+        // в графическом интерфейсе видеть временные отметки
+        timestamps()
     }
     stages {
         stage('Build') {
